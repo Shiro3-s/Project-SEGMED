@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // Rutas
 app.use('/segmed/users', userRoutes)
-app.use('/segmed/modules', moduleRoutes)
+app.use('/segmed/module', moduleRoutes)
 app.use('/segmed/municipalities', municipalitiesRoutes)
 app.use('/segmed/academic-programs', academicProgramRoutes)
 app.use('/segmed/roles', roles)

@@ -15,7 +15,7 @@ exports.create = async (data) => {
     // Ajusta los campos según la tabla
     const fechaActual = new Date()
     const [result] = await pool.execute(
-        'INSERT INTO Modulos (Asistencia, Practicas, OpcionGrado, FechaCreacion, FechaActualizacion) VALUES (?, ?, ?,?,?,?)',
+        'INSERT INTO Modulos (Asistencia, Practicas, OpcionGrado, FechaCreacion, FechaActualizacion) VALUES (?, ?, ?,?,?)',
         [data.Asistencia, data.Practicas,data.OpcionGrado,data.Asistencia, fechaActual, fechaActual]
     )
     return { id: result.insertId, ...data }

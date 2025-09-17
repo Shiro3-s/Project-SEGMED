@@ -15,7 +15,7 @@ exports.create = async (data) => {
     // Ajusta los campos según la tabla
     const fechaActual = new Date()
     const [result] = await pool.execute(
-        'INSERT INTO Municipios (idMunicipio, Nombre, FechaCreacion, FechaActualizacion) VALUES (?, ?, ?)',
+        'INSERT INTO Municipios (idMunicipio, Nombre, FechaCreacion, FechaActualizacion) VALUES (?, ?, ?,?)',
         [data.idMunicipio, data.Nombre,fechaActual,fechaActual]
     )
     return { id: result.insertId, ...data }
@@ -24,7 +24,7 @@ exports.create = async (data) => {
 exports.update = async (id, data) => {
     // Ajusta los campos según la tabla
     const [result] = await pool.execute(
-        'UPDATE Municipios SET idMunicipio = ?, Nombre = ?, FechaActualizacion = ? WHERE idModulos = ?',
+        'UPDATE Municipios SET idMunicipio = ?, Nombre = ?, FechaActualizacion = ? WHERE idMunicipio = ?',
         [data.idMunicipio, data.Nombre, new Date(), id]
     )
     return result.affectedRows > 0

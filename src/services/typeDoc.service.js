@@ -32,7 +32,7 @@ exports.update = async (id, data) => {
 
 exports.remove = async (id) => {
     const [result] = await pool.execute(
-        'DELETE FROM TipoDocumentos WHERE idTipoDocumentos = ?', [id]
+        'DELETE FROM TipoDocumentos WHERE idTipoDocumento = ?', [id]
     )
     return result.affectedRows > 0;
 }
