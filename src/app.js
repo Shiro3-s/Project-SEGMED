@@ -6,6 +6,7 @@ const { testConnection } = require('./config/db.config')
 // Importar rutas
 const userRoutes = require('./routes/user.routes')
 const moduleRoutes = require('./routes/module.routes')
+const municipalitiesRoutes = require('./routes/municipalities.routes')
 
 const app = express()
 const PORT = process.env.PORT || 3005
@@ -18,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // Rutas
 app.use('/segmed/users', userRoutes)
 app.use('/segmed/modules', moduleRoutes)
+app.use('/segmed/municipalities', municipalitiesRoutes)
 
 // Ruta de prueba
 app.get('/', (req, res) => {
@@ -25,7 +27,8 @@ app.get('/', (req, res) => {
         message: 'Bienvenido al API de SGEMD',
         endpoints: {
             users: '/segmed/users',
-            modules: '/segmed/modules'
+            modules: '/segmed/modules',
+            municipalities: '/segmed/municipalities'
         }
     })
 })
