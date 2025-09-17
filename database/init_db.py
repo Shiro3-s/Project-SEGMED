@@ -310,8 +310,8 @@ try:
         CREATE TABLE IF NOT EXISTS Modalidad (
             idModalidad INT NOT NULL,
             Presencial TINYINT NOT NULL,
-            Distancia TINYINT NOT NULL,                # Si quieres usar 'virtual', usa `virtual` con comillas invertidas
-            Enlace_virtual VARCHAR(45) NOT NULL,       -- Corregido de Enlae_virtual
+            Distancia TINYINT NOT NULL,               
+            Enlace_virtual VARCHAR(45) NOT NULL,       
             Lugar VARCHAR(45) NOT NULL,
             PRIMARY KEY (idModalidad)
         ) 

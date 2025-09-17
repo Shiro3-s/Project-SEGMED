@@ -1,8 +1,8 @@
-const entidadModulo = require('../services/module.service');
+const etapaEmprendimiento = require('../services/mode.service');
 
 exports.getAll = async (req, res) => {
     try {
-        const data = await entidadModulo.findAll()
+        const data = await etapaEmprendimiento.findAll()
         res.json({ success: true, data: data })
     } catch (error) {
         res.status(500).json({ success: false, error: error.message })
@@ -11,7 +11,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
     try {
-        const data = await entidadModulo.findById(req.params.id)
+        const data = await etapaEmprendimiento.findById(req.params.id)
         res.json({ success: true, data: data })
     } catch (error) {
         res.status(404).json({ success: false, error: error.message })
@@ -20,7 +20,7 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const data = await entidadModulo.create(req.body)
+        const data = await etapaEmprendimiento.create(req.body)
         res.status(201).json({ success: true, data: data })
     } catch (error) {
         res.status(400).json({ success: false, error: error.message })
@@ -29,11 +29,11 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        const updated = await entidadModulo.update(req.params.id, req.body)
+        const updated = await etapaEmprendimiento.update(req.params.id, req.body)
         if (updated) {
-            res.json({ success: true, message: 'Modulos actualizado' })
+            res.json({ success: true, message: 'Modalidad actualizado' })
         } else {
-            res.status(404).json({ success: false, error: 'Modulos no encontrado' })
+            res.status(404).json({ success: false, error: 'Modalidad no encontrado' })
         }
     } catch (error) {
         res.status(400).json({ success: false, error: error.message })
@@ -42,13 +42,13 @@ exports.update = async (req, res) => {
 
 exports.remove = async (req, res) => {
     try {
-        const deleted = await entidadModulo.remove(req.params.id)
+        const deleted = await etapaEmprendimiento.remove(req.params.id)
         if (deleted) {
-            res.json({ success: true, message: 'Modulos eliminado' })
+            res.json({ success: true, message: 'Modalidad eliminado' })
         } else {
-            res.status(404).json({ success: false, error: 'Modulos no encontrado' })
+            res.status(404).json({ success: false, error: 'Modalidad no encontrado' })
         }
     } catch (error) {
         res.status(500).json({ success: false, error: error.message })
     }
-}
+};
