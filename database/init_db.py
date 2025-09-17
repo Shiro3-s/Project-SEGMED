@@ -123,7 +123,7 @@ try:
             CorreoPersonal VARCHAR(45) NOT NULL,
             Celular VARCHAR(45) NOT NULL,
             Telefono VARCHAR(45) NOT NULL,
-            Direcccion VARCHAR(45) NOT NULL,
+            Direccion VARCHAR(45) NOT NULL,
             Genero VARCHAR(45) NOT NULL,
             EstadoCivil VARCHAR(45) NOT NULL,
             FechaNacimiento DATE NOT NULL,
@@ -233,37 +233,37 @@ try:
         """
         cursor.execute(create_Seguimientos)
 
-        # Tabla Asisitencia
-        create_Asisitencia = """
-        CREATE TABLE IF NOT EXISTS Asisitencia (
-            idAsisitencia INT NOT NULL AUTO_INCREMENT,
+        # Tabla Asistencia
+        create_Asistencia = """
+        CREATE TABLE IF NOT EXISTS Asistencia (
+            idAsistencia INT NOT NULL AUTO_INCREMENT,
             FeedBack VARCHAR(45) NOT NULL,
             Emprendimiento_idEmprendimiento INT NOT NULL,
             FechaCreacion DATE NOT NULL,
             FechaActualizacion DATE NOT NULL,
             Seguimientos_idSeguimientos INT NOT NULL,
-            PRIMARY KEY (idAsisitencia),
-            INDEX fk_Asisitencia_Emprendimiento1_idx (Emprendimiento_idEmprendimiento),
-            INDEX fk_Asisitencia_Seguimientos1_idx (Seguimientos_idSeguimientos),
-            CONSTRAINT fk_Asisitencia_Emprendimiento1
+            PRIMARY KEY (idAsistencia),
+            INDEX fk_Asistencia_Emprendimiento1_idx (Emprendimiento_idEmprendimiento),
+            INDEX fk_Asistencia_Seguimientos1_idx (Seguimientos_idSeguimientos),
+            CONSTRAINT fk_Asistencia_Emprendimiento1
                 FOREIGN KEY (Emprendimiento_idEmprendimiento)
                 REFERENCES Emprendimiento (idEmprendimiento),
-            CONSTRAINT fk_Asisitencia_Seguimientos1
+            CONSTRAINT fk_Asistencia_Seguimientos1
                 FOREIGN KEY (Seguimientos_idSeguimientos)
                 REFERENCES Seguimientos (idSeguimientos)
         ) 
         """
-        cursor.execute(create_Asisitencia)
+        cursor.execute(create_Asistencia)
 
-        # Tabla SectoEconomico
-        create_SectoEconomico = """
-        CREATE TABLE IF NOT EXISTS SectoEconomico (
-            idSectoEconomico INT NOT NULL AUTO_INCREMENT,
+        # Tabla SectorEconomico
+        create_SectorEconomico = """
+        CREATE TABLE IF NOT EXISTS SectorEconomico (
+            idSectorEconomico INT NOT NULL AUTO_INCREMENT,
             Nombre VARCHAR(45) NOT NULL,
-            PRIMARY KEY (idSectoEconomico)
+            PRIMARY KEY (idSectorEconomico)
         ) 
         """
-        cursor.execute(create_SectoEconomico)
+        cursor.execute(create_SectorEconomico)
 
         # Tabla Diagnosticos
         create_Diagnosticos = """
@@ -277,7 +277,7 @@ try:
             Tendencias TINYINT NOT NULL,
             Canales TINYINT NOT NULL,
             DescripcionPromocion TEXT(150) NOT NULL,
-            SectoEconomico_idSectoEconomico INT NOT NULL,
+            SectorEconomico_idSectorEconomico INT NOT NULL,
             Emprendimiento_idEmprendimiento INT NOT NULL,
             Presentacion TINYINT NOT NULL,
             PasosElaboracion TINYINT NOT NULL,
@@ -293,11 +293,11 @@ try:
             ImpactoSocial TINYINT NOT NULL,
             Viabilidad TINYINT NOT NULL,
             PRIMARY KEY (idDiagnosticos),
-            INDEX fk_Diagnosticos_SectoEconomico1_idx (SectoEconomico_idSectoEconomico),
+            INDEX fk_Diagnosticos_SectorEconomico1_idx (SectorEconomico_idSectorEconomico),
             INDEX fk_Diagnosticos_Emprendimiento1_idx (Emprendimiento_idEmprendimiento),
-            CONSTRAINT fk_Diagnosticos_SectoEconomico1
-                FOREIGN KEY (SectoEconomico_idSectoEconomico)
-                REFERENCES SectoEconomico (idSectoEconomico),
+            CONSTRAINT fk_Diagnosticos_SectorEconomico1
+                FOREIGN KEY (SectorEconomico_idSectorEconomico)
+                REFERENCES SectorEconomico (idSectorEconomico),
             CONSTRAINT fk_Diagnosticos_Emprendimiento1
                 FOREIGN KEY (Emprendimiento_idEmprendimiento)
                 REFERENCES Emprendimiento (idEmprendimiento)
