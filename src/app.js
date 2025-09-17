@@ -7,6 +7,7 @@ const { testConnection } = require('./config/db.config')
 const userRoutes = require('./routes/user.routes')
 const moduleRoutes = require('./routes/module.routes')
 const municipalitiesRoutes = require('./routes/municipalities.routes')
+const academicProgramRoutes = require('./routes/academicProgram.routes')
 
 const app = express()
 const PORT = process.env.PORT || 3005
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/segmed/users', userRoutes)
 app.use('/segmed/modules', moduleRoutes)
 app.use('/segmed/municipalities', municipalitiesRoutes)
+app.use('/segmed/academic-programs', academicProgramRoutes)
 
 // Ruta de prueba
 app.get('/', (req, res) => {
@@ -28,7 +30,8 @@ app.get('/', (req, res) => {
         endpoints: {
             users: '/segmed/users',
             modules: '/segmed/modules',
-            municipalities: '/segmed/municipalities'
+            municipalities: '/segmed/municipalities',
+            academicPrograms: '/segmed/academic-programs',
         }
     })
 })
