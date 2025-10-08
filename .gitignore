@@ -1,4 +1,21 @@
 #ignorar node_modules
-node_modules/
-#ignorar archivos de entorno
+/node_modules
+#Es crucial ignorar el archivo .env para proteger información sensible como claves API y credenciales de base de datos.
 .env
+#depencencias 
+/npm-debug.log
+/yarn-error.log
+#Production/build files
+/dist
+/build
+#runtime data
+/pids
+/logs
+*.pid
+*.seed
+*.log
+#Editor/DS specific files (archivos temporales del sistema o del editor)
+.DS_Store
+.vscode/
+# Nodemon (si genera archivos temporales especificos, aunque generalemnte no es necesario)
+.nodemon

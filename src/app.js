@@ -1,7 +1,9 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const { testConnection } = require('./config/db.config')
+
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const { testConnection } = require('./config/db.config');
 
 // Importar rutas
 const userRoutes = require('./routes/user.routes')
@@ -30,10 +32,31 @@ const dateTimes = require('./routes/dateTimes.routes')
 const app = express()
 const PORT = process.env.PORT || 3005
 
+
 // Middleware
-app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+const verifyToken = require('./middleware/auth.middleware');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Request logging middleware
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
+
+// CORS middleware (headers)
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
+        return res.status(200).json({});
+    }
+    next();
+});
 
 // Rutas
 app.use('/segmed/users', userRoutes)
@@ -47,55 +70,39 @@ app.use('/segmed/uni-centers', uniCenters)
 app.use('/segmed/type-pop', tipoPoblacion)
 app.use('/segmed/entrep-stage', EtapadeEmprendimiento)
 app.use('/segmed/entrepreneurship', emprendimiento)
-app.use('/segmed/tracing', tracing)
-app.use('/segmed/assistance', assistance)
-app.use('/segmed/econo-sector', econoSector)
-app.use('/segmed/diagnosis', diagnosis)
-app.use('/segmed/mode', mode)
-app.use('/segmed/advice', advice)
-app.use('/segmed/event', event)
-app.use('/segmed/type-event', typeEvent)
-app.use('/segmed/date-times', dateTimes)
+// Proteger rutas siguientes con el middleware de autenticación
+app.use('/segmed/tracing', verifyToken, tracing)
+app.use('/segmed/assistance', verifyToken, assistance)
+app.use('/segmed/econo-sector', verifyToken, econoSector)
+app.use('/segmed/diagnosis', verifyToken, diagnosis)
+app.use('/segmed/mode', verifyToken, mode)
+app.use('/segmed/advice', verifyToken, advice)
+app.use('/segmed/event', verifyToken, event)
+app.use('/segmed/type-event', verifyToken, typeEvent)
+app.use('/segmed/date-times', verifyToken, dateTimes)
 
-// Ruta de prueba   
-app.get('/', (req, res) => {
-    res.json({ 
-        message: 'Bienvenido al API de SGEMD',
-        endpoints: {
-            users: '/segmed/users',
-            modules: '/segmed/modules',
-            municipalities: '/segmed/municipalities',
-            academicPrograms: '/segmed/academic-programs',
-            roles: '/segmed/roles',
-            tipoDoc: '/segmed/tipo-doc',
-            tipoUsuario: '/segmed/tipo-usuarios',
-            uniCenters: '/segmed/uni-centers',
-            tipoPoblacion: '/segmed/tipo-poblacion',
-            etapadeEmpedimiento: '/segmed/etapade-empedimiento',
-            emprendimiento: '/segmed/emprendimiento',
-            tracing: '/segmed/tracing',
-            assistance: '/segmed/assistance',
-            econoSector: '/segmed/econo-sector',
-            diagnosis: '/segmed/diagnosis',
-            mode: '/segmed/mode',
-            advice: '/segmed/advice',
-            event: '/segmed/event',
-            typeEvent: '/segmed/typeEvent',
-            dateTimes: '/segmed/dateTimes'
-        }
-    })
-})
 
-// Manejo de errores
+// Health check route
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'OK', timestamp: new Date() });
+});
+
+
+// Handle undefined routes
+app.use((req, res) => {
+    res.status(404).json({ 
+        message: `No se puede encontrar ${req.originalUrl} en este servidor!` 
+    });
+});
+
+// Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(500).json({ success: false, error: 'Error interno del servidor' });
-})
-
-// Ruta no encontrada
-app.use('*', (req, res) => {
-    res.status(404).json({ success: false, error: 'Ruta no encontrada' });
-})
+    const statusCode = err.statusCode || 500;
+    res.status(statusCode).json({
+        status: 'error',
+        message: err.message || 'Error interno del servidor'
+    });
+});
 
 // Inicializar la aplicación
 async function startServer() {
@@ -105,10 +112,18 @@ async function startServer() {
         process.exit(1);
     }
 
-    app.listen(PORT, () => {
-        console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
-        console.log(`API disponible en http://localhost:${PORT}/segmed/`);
-    })
+    const server = app.listen(PORT, () => {
+        console.log('=================================');
+        console.log(`🚀 Server running on port ${PORT}`);
+        console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
+        console.log('=================================');
+        console.log('Available routes:');
+        console.log('HEALTH CHECK:');
+        console.log('GET /health - Health check');
+        console.log('SEGMENTED API ROUTES:');
+        console.log('/segmed/*');
+        console.log('=================================');
+    });
 }
 
-startServer()
+startServer();

@@ -119,6 +119,7 @@ try:
         CREATE TABLE IF NOT EXISTS Usuarios (
             idUsuarios INT NOT NULL AUTO_INCREMENT,
             Nombre VARCHAR(45) NOT NULL,
+            Password VARCHAR(255) NOT NULL,
             CorreoInstitucional VARCHAR(45) NOT NULL,
             CorreoPersonal VARCHAR(45) NOT NULL,
             Celular VARCHAR(45) NOT NULL,

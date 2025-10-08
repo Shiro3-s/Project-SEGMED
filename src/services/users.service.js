@@ -4,11 +4,20 @@ const { pool } = require('../config/db.config');
 exports.findAll = async () => {
     const [rows] = await pool.execute(`
         SELECT u.idUsuarios, u.Nombre, u.CorreoInstitucional, u.CorreoPersonal, 
-               u.Celular, u.Telefono, u.Estado, u.Semestre, u.Modalidad,
-               tu.TipodeUsuario, pa.Nombre as ProgramaAcademico
+               u.Celular, u.Telefono, u.Direccion, u.Genero, u.EstadoCivil,
+               u.FechaNacimiento, u.Estado, u.Semestre, u.Modalidad,
+               tu.TipodeUsuario, pa.Nombre as ProgramaAcademico,
+               m.Nombre as Municipio, td.TipoDocumento,
+               cu.Nombre as CentroUniversitario, tp.Nombre as TipoPoblacion,
+               r.Nombre as Rol
         FROM Usuarios u
         INNER JOIN TipoUsuarios tu ON u.TipoUsuarios_idTipoUsuarios = tu.idTipoUsuarios
         LEFT JOIN ProgramaAcademico pa ON u.ProgramaAcademico_idProgramaAcademico = pa.idProgramaAcademico
+        LEFT JOIN Municipios m ON u.Municipios_idMunicipio = m.idMunicipio
+        LEFT JOIN TipoDocumentos td ON u.TipoDocumentos_idTipoDocumento = td.idTipoDocumento
+        LEFT JOIN CentroUniversitarios cu ON u.CentroUniversitarios_idCentroUniversitarios = cu.idCentroUniversitarios
+        LEFT JOIN TipoPoblacion tp ON u.TipoPoblacion_idTipoPoblacion = tp.idTipoPoblacion
+        LEFT JOIN Roles r ON u.Roles_idRoles1 = r.idRoles
         WHERE u.Estado = 1
     `);
     return rows;
@@ -17,11 +26,20 @@ exports.findAll = async () => {
 exports.findAllStudents = async () => {
     const [rows] = await pool.execute(`
         SELECT u.idUsuarios, u.Nombre, u.CorreoInstitucional, u.CorreoPersonal, 
-               u.Celular, u.Telefono, u.Estado, u.Semestre, u.Modalidad,
-               tu.TipodeUsuario, pa.Nombre as ProgramaAcademico
+               u.Celular, u.Telefono, u.Direccion, u.Genero, u.EstadoCivil,
+               u.FechaNacimiento, u.Estado, u.Semestre, u.Modalidad,
+               tu.TipodeUsuario, pa.Nombre as ProgramaAcademico,
+               m.Nombre as Municipio, td.TipoDocumento,
+               cu.Nombre as CentroUniversitario, tp.Nombre as TipoPoblacion,
+               r.Nombre as Rol
         FROM Usuarios u
         INNER JOIN TipoUsuarios tu ON u.TipoUsuarios_idTipoUsuarios = tu.idTipoUsuarios
         LEFT JOIN ProgramaAcademico pa ON u.ProgramaAcademico_idProgramaAcademico = pa.idProgramaAcademico
+        LEFT JOIN Municipios m ON u.Municipios_idMunicipio = m.idMunicipio
+        LEFT JOIN TipoDocumentos td ON u.TipoDocumentos_idTipoDocumento = td.idTipoDocumento
+        LEFT JOIN CentroUniversitarios cu ON u.CentroUniversitarios_idCentroUniversitarios = cu.idCentroUniversitarios
+        LEFT JOIN TipoPoblacion tp ON u.TipoPoblacion_idTipoPoblacion = tp.idTipoPoblacion
+        LEFT JOIN Roles r ON u.Roles_idRoles1 = r.idRoles
         WHERE tu.TipodeUsuario = 'Estudiante' AND u.Estado = 1
         `)
         return rows
@@ -30,11 +48,20 @@ exports.findAllStudents = async () => {
 exports.findAllTeachers = async () => {
     const [rows] = await pool.execute(`
         SELECT u.idUsuarios, u.Nombre, u.CorreoInstitucional, u.CorreoPersonal, 
-               u.Celular, u.Telefono, u.Estado, u.Semestre, u.Modalidad,
-               tu.TipodeUsuario, pa.Nombre as ProgramaAcademico
+               u.Celular, u.Telefono, u.Direccion, u.Genero, u.EstadoCivil,
+               u.FechaNacimiento, u.Estado, u.Semestre, u.Modalidad,
+               tu.TipodeUsuario, pa.Nombre as ProgramaAcademico,
+               m.Nombre as Municipio, td.TipoDocumento,
+               cu.Nombre as CentroUniversitario, tp.Nombre as TipoPoblacion,
+               r.Nombre as Rol
         FROM Usuarios u
         INNER JOIN TipoUsuarios tu ON u.TipoUsuarios_idTipoUsuarios = tu.idTipoUsuarios
         LEFT JOIN ProgramaAcademico pa ON u.ProgramaAcademico_idProgramaAcademico = pa.idProgramaAcademico
+        LEFT JOIN Municipios m ON u.Municipios_idMunicipio = m.idMunicipio
+        LEFT JOIN TipoDocumentos td ON u.TipoDocumentos_idTipoDocumento = td.idTipoDocumento
+        LEFT JOIN CentroUniversitarios cu ON u.CentroUniversitarios_idCentroUniversitarios = cu.idCentroUniversitarios
+        LEFT JOIN TipoPoblacion tp ON u.TipoPoblacion_idTipoPoblacion = tp.idTipoPoblacion
+        LEFT JOIN Roles r ON u.Roles_idRoles1 = r.idRoles
         WHERE tu.TipodeUsuario = 'Docente' AND u.Estado = 1
         `)
         return rows
@@ -43,26 +70,37 @@ exports.findAllTeachers = async () => {
 exports.findAllAdmin = async () => {
     const [rows] = await pool.execute(`
         SELECT u.idUsuarios, u.Nombre, u.CorreoInstitucional, u.CorreoPersonal, 
-               u.Celular, u.Telefono, u.Estado, u.Semestre, u.Modalidad,
-               tu.TipodeUsuario, pa.Nombre as ProgramaAcademico
+               u.Celular, u.Telefono, u.Direccion, u.Genero, u.EstadoCivil,
+               u.FechaNacimiento, u.Estado, u.Semestre, u.Modalidad,
+               tu.TipodeUsuario, pa.Nombre as ProgramaAcademico,
+               m.Nombre as Municipio, td.TipoDocumento,
+               cu.Nombre as CentroUniversitario, tp.Nombre as TipoPoblacion,
+               r.Nombre as Rol
         FROM Usuarios u
         INNER JOIN TipoUsuarios tu ON u.TipoUsuarios_idTipoUsuarios = tu.idTipoUsuarios
         LEFT JOIN ProgramaAcademico pa ON u.ProgramaAcademico_idProgramaAcademico = pa.idProgramaAcademico
+        LEFT JOIN Municipios m ON u.Municipios_idMunicipio = m.idMunicipio
+        LEFT JOIN TipoDocumentos td ON u.TipoDocumentos_idTipoDocumento = td.idTipoDocumento
+        LEFT JOIN CentroUniversitarios cu ON u.CentroUniversitarios_idCentroUniversitarios = cu.idCentroUniversitarios
+        LEFT JOIN TipoPoblacion tp ON u.TipoPoblacion_idTipoPoblacion = tp.idTipoPoblacion
+        LEFT JOIN Roles r ON u.Roles_idRoles1 = r.idRoles
         WHERE tu.TipodeUsuario = 'Administrativo' AND u.Estado = 1
         `)
         return rows
 }
 
 
+
 // Obtener usuario por ID
 exports.findById = async (id) => {
     const [rows] = await pool.execute(`
         SELECT u.idUsuarios, u.Nombre, u.CorreoInstitucional, u.CorreoPersonal,
-               u.Celular, u.Telefono, u.Direcccion, u.Genero, u.EstadoCivil,
+               u.Celular, u.Telefono, u.Direccion, u.Genero, u.EstadoCivil,
                u.FechaNacimiento, u.Semestre, u.Modalidad, u.Estado,
                tu.TipodeUsuario, pa.Nombre as ProgramaAcademico,
                cu.Nombre as CentroUniversitario, m.Nombre as Municipio,
-               td.TipoDocumento, r.Nombre as Rol, tp.Nombre as TipoPoblacion
+               td.TipoDocumento, r.Nombre as Rol, tp.Nombre as TipoPoblacion,
+               u.Password
         FROM Usuarios u
         INNER JOIN TipoUsuarios tu ON u.TipoUsuarios_idTipoUsuarios = tu.idTipoUsuarios
         LEFT JOIN ProgramaAcademico pa ON u.ProgramaAcademico_idProgramaAcademico = pa.idProgramaAcademico
@@ -73,11 +111,54 @@ exports.findById = async (id) => {
         LEFT JOIN TipoPoblacion tp ON u.TipoPoblacion_idTipoPoblacion = tp.idTipoPoblacion
         WHERE u.idUsuarios = ? AND u.Estado = 1
     `, [id])
-    
     if (rows.length === 0) {
         throw new Error('Usuario no encontrado')
     }
-    
+    return rows[0];
+};
+
+// Buscar usuario por correo (para login y seguridad)
+exports.findByEmail = async (email) => {
+    const [rows] = await pool.execute(
+        'SELECT * FROM Usuarios WHERE CorreoInstitucional = ? AND Estado = 1',
+        [email]
+    );
+    return rows[0];
+};
+
+// Cambiar contraseña de usuario
+const bcrypt = require('bcryptjs');
+exports.changePassword = async (userId, oldPassword, newPassword) => {
+    const [rows] = await pool.execute(
+        'SELECT Password FROM Usuarios WHERE idUsuarios = ? AND Estado = 1',
+        [userId]
+    );
+    if (!rows[0] || !bcrypt.compareSync(oldPassword, rows[0].Password)) {
+        throw new Error('Contraseña actual incorrecta');
+    }
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+    await pool.execute(
+        'UPDATE Usuarios SET Password = ? WHERE idUsuarios = ?',
+        [hashedPassword, userId]
+    );
+    return true;
+};
+
+// Obtener perfil seguro (sin contraseña)
+exports.getProfile = async (userId) => {
+    const [rows] = await pool.execute(
+        'SELECT idUsuarios, Nombre, CorreoInstitucional, CorreoPersonal, FechaCreacion FROM Usuarios WHERE idUsuarios = ? AND Estado = 1',
+        [userId]
+    );
+    return rows[0];
+};
+
+// Obtener perfil público
+exports.getPublicProfile = async (userId) => {
+    const [rows] = await pool.execute(
+        'SELECT idUsuarios, Nombre FROM Usuarios WHERE idUsuarios = ? AND Estado = 1',
+        [userId]
+    );
     return rows[0];
 };
 
@@ -98,28 +179,23 @@ exports.create = async (newUser) => {
         throw new Error('El correo institucional ya está registrado')
     }
 
-    // Obtener IDs de las tablas relacionadas
-    const [tipoUsuario] = await pool.execute(
-        "SELECT idTipoUsuarios FROM TipoUsuarios WHERE TipodeUsuario = 'Estudiante' LIMIT 1"
-    )
-    const [rol] = await pool.execute(
-        "SELECT idRoles FROM Roles WHERE Nombre = 'Estudiante' LIMIT 1"
-    )
-    if (tipoUsuario.length === 0 || rol.length === 0) {
-        throw new Error('Configuración de base de datos incompleta');
-    }
+    // Usar los IDs proporcionados directamente desde el cliente
+    const tipoUsuario = [{ idTipoUsuarios: newUser.TipoUsuarios_idTipoUsuarios }];
+    const rol = [{ idRoles: newUser.Roles_idRoles1 }];
 
     const fechaActual = new Date()
+    // Hash the password before storing it
+    const hashedPassword = bcrypt.hashSync(newUser.Password, 10)
     const [result] = await pool.execute(
         `INSERT INTO Usuarios (
             Nombre, CorreoInstitucional, CorreoPersonal, Celular, Telefono,
-            Direcccion, Genero, EstadoCivil, FechaNacimiento, 
+            Direccion, Genero, EstadoCivil, FechaNacimiento, Password,
             Modulos_idModulos, Municipios_idMunicipio, ProgramaAcademico_idProgramaAcademico, 
             Roles_idRoles1, TipoDocumentos_idTipoDocumento, TipoUsuarios_idTipoUsuarios,
             ProgramaAcademico_idProgramaAcademico1, CentroUniversitarios_idCentroUniversitarios,
             Estado, Semestre, Modalidad, TipoPoblacion_idTipoPoblacion,
             FechaCreacion, FechaActualizacion
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `,
         [
             newUser.Nombre,
@@ -127,10 +203,11 @@ exports.create = async (newUser) => {
             newUser.CorreoPersonal || '',
             newUser.Celular || '',
             newUser.Telefono || '',
-            newUser.Direcccion || '',
+            newUser.Direccion || '',
             newUser.Genero || '',
             newUser.EstadoCivil || '',
             newUser.FechaNacimiento || fechaActual,
+            hashedPassword,
             newUser.Modulos_idModulos || 1,
             newUser.Municipios_idMunicipio || 1,
             newUser.ProgramaAcademico_idProgramaAcademico || 1,
@@ -157,7 +234,7 @@ exports.update = async (id, updatedUsers) => {
     const [result] = await pool.execute(
         `UPDATE Usuarios SET 
             Nombre = ?, CorreoPersonal = ?, Celular = ?, Telefono = ?,
-            Direcccion = ?, Genero = ?, EstadoCivil = ?, FechaNacimiento = ?,
+            Direccion = ?, Genero = ?, EstadoCivil = ?, FechaNacimiento = ?,
             Semestre = ?, Modalidad = ?, FechaActualizacion = ?,
             Municipios_idMunicipio = ?, ProgramaAcademico_idProgramaAcademico = ?,
             TipoDocumentos_idTipoDocumento = ?, CentroUniversitarios_idCentroUniversitarios = ?,
@@ -168,7 +245,7 @@ exports.update = async (id, updatedUsers) => {
             updatedUsers.CorreoPersonal,
             updatedUsers.Celular,
             updatedUsers.Telefono,
-            updatedUsers.Direcccion,
+            updatedUsers.Direccion,
             updatedUsers.Genero,
             updatedUsers.EstadoCivil,
             updatedUsers.FechaNacimiento,
